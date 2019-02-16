@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -11,9 +12,6 @@ namespace Example_.NET_WebAPI_Project
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
-            
-
             // Web API routes
             config.MapHttpAttributeRoutes();
 
@@ -25,11 +23,8 @@ namespace Example_.NET_WebAPI_Project
 
             //Enable CORS
             config.EnableCors(new EnableCorsAttribute("http://localhost:4200", headers:"*", methods:"*"));
-
-            var json = config.Formatters.JsonFormatter;
-            json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
-            config.Formatters.Remove(config.Formatters.XmlFormatter);
-            json.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            
+            GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
         }
     }
 }
